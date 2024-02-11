@@ -10,12 +10,19 @@ router.post('/register', registerSchema, register);
 router.post('/authenticate', authenticateSchema, authenticate);
 router.post('/refresh-token', refreshToken);
 
-router.get('/', authorize('Admin'), getAll);
-router.get('/:id', authorize(), getById);
-router.post('/', authorize('Admin'), createSchema, create);
-router.put('/:id', authorize(), updateSchema, update);
-router.delete('/:id', authorize(), _delete);
+// remove auth only support api
 
+// router.get('/', authorize('Admin'), getAll);
+// router.get('/:id', authorize(), getById);
+// router.post('/', authorize('Admin'), createSchema, create);
+// router.put('/:id', authorize(), updateSchema, update);
+// router.delete('/:id', authorize(), _delete);
+
+router.get('/', getAll);
+router.get('/:id', getById);
+router.post('/', createSchema, create);
+router.put('/:id', updateSchema, update);
+router.delete('/:id', _delete);
 
 module.exports = router;
 
@@ -92,7 +99,10 @@ function validateRequest(req, res, next, schema) {
 // Route handler for user registration
 function register(req, res, next) {
     accountService.register(req.body)
-        .then(() => res.json({ message: 'Registration successful' }))
+        .then(() => {
+            console.log('Registration successful');
+            res.json({ message: 'Registration successful' });
+        })
         .catch(next);
 }
 
@@ -150,6 +160,8 @@ function create(req, res, next) {
 // Route handler for updating a user
 function update(req, res, next) {
     const userId = parseInt(req.params.id);
+    console.log("userId ", userId);
+
     accountService.update(userId, req.body)
         .then(account => res.json(account))
         .catch(next);
@@ -163,7 +175,6 @@ function _delete(req, res, next) {
         .catch(next);
 }
 
-// Helper function to set token cookie
 function setTokenCookie(res, token) {
     const cookieOptions = {
         httpOnly: true,

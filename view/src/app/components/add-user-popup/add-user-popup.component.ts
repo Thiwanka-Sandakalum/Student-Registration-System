@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { User } from '../user-management/user-management.component';
+import { User } from 'src/app/models/user';
+import { DataService } from 'src/app/service/data.service';
 
 @Component({
   selector: 'app-add-user-popup',
@@ -14,19 +15,39 @@ export class AddUserPopupComponent {
   @Output() userData = new EventEmitter<User>();
   @ViewChild('userForm') userForm!: NgForm;
 
-  constructor(public dialogRef: MatDialogRef<AddUserPopupComponent>) { }
+  constructor(public dialogRef: MatDialogRef<AddUserPopupComponent>,
+    private dataService: DataService) { }
 
   submitForm() {
     if (this.userForm.valid) {
-      const userData = this.userForm.value;
-      // Send userData to your backend for further processing
+      const userData = this.userForm.value as User;
       console.log(userData);
-      this.userData.emit(userData);
-      this.dialogRef.close(userData);
+
+      this.dataService.create(userData).subscribe(
+        (createdUser: User) => {
+          console.log('User created:', createdUser);
+          this.dialogRef.close(createdUser);
+        },
+        (error) => {
+          console.error('Error creating user:', error);
+        }
+      );
     }
   }
 
   closePopup() {
     this.dialogRef.close();
+  }
+
+  // Custom validator for password strength
+  passwordValidator(control: FormControl): { [key: string]: boolean } | null {
+    const value: string = control.value || '';
+    const hasUpperCase = /[A-Z]/.test(value);
+    const hasLowerCase = /[a-z]/.test(value);
+    const hasNumeric = /[0-9]/.test(value);
+    const hasSpecial = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(value);
+    const isValid = hasUpperCase && hasLowerCase && hasNumeric && hasSpecial;
+
+    return isValid ? null : { 'weakPassword': true };
   }
 }

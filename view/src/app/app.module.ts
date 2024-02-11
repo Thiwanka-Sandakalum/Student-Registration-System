@@ -12,8 +12,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table'; // Add MatTableModule
-import { MatSortModule } from '@angular/material/sort'; // Add MatSortModule
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -22,7 +22,6 @@ import { AppComponent } from './app.component';
 import { AddUserPopupComponent } from './components/add-user-popup/add-user-popup.component';
 import { UserManagementComponent } from './components/user-management/user-management.component';
 import { LoginComponent } from './components/login/login.component';
-import { SignupComponent } from './components/signup/signup.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { EditUserDialogComponent } from './components/edit-user-popup/edit-user-popup.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -34,7 +33,6 @@ import { ProfileComponent } from './components/profile/profile.component';
   declarations: [
     AppComponent,
     LoginComponent,
-    SignupComponent,
     UserManagementComponent,
     AddUserPopupComponent,
     EditUserDialogComponent,

@@ -1,37 +1,60 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
+import { CookieService } from 'ngx-cookie-service'; // Import CookieService
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cookieService: CookieService) { } // Inject CookieService
 
-  private baseUrl = 'http://localhost:3000';
+  private baseUrl = 'http://localhost:4000/accounts';
 
-  getUserProfile() {
-    return this.http.get('/api/profile');
+  // Function to retrieve JWT token from cookie
+  private getToken(): string {
+    return this.cookieService.get('jwt_token');
+  }
+
+
+  // Function to create HTTP headers with Authorization header
+  private createHeaders(): HttpHeaders {
+    const jwtToken = this.getToken();
+    console.log(jwtToken);
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${jwtToken}`
+    });
+  }
+
+  getUserProfile(id: number): Observable<User> {
+    const headers = this.createHeaders();
+    return this.http.get<User>(`${this.baseUrl}/${id}`, { headers });
   }
 
   getAll(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.baseUrl}/`);
+    const headers = this.createHeaders();
+    return this.http.get<User[]>(`${this.baseUrl}/`, { headers });
   }
 
   getById(id: number): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}/${id}`);
+    const headers = this.createHeaders();
+    return this.http.get<User>(`${this.baseUrl}/${id}`, { headers });
   }
 
   create(user: User): Observable<User> {
-    return this.http.post<User>(`${this.baseUrl}/`, user);
+    const headers = this.createHeaders();
+    return this.http.post<User>(`${this.baseUrl}/`, user, { headers });
   }
 
   update(id: number, user: User): Observable<User> {
-    return this.http.put<User>(`${this.baseUrl}/${id}`, user);
+    const headers = this.createHeaders();
+    return this.http.put<User>(`${this.baseUrl}/${id}`, user, { headers });
   }
 
   delete(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+    const headers = this.createHeaders();
+    return this.http.delete(`${this.baseUrl}/${id}`, { headers });
   }
 }

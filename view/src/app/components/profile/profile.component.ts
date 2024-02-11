@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from 'src/app/service/data.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
@@ -10,12 +9,13 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class ProfileComponent implements OnInit {
   userProfile: any;
   profileForm: FormGroup;
-  isDisabled: boolean = true; // Example value, set it as per your logic
+  isDisabled: boolean = true;
+  isEditing: boolean = false;
 
-  constructor(private profileService: DataService, private fb: FormBuilder) {
+  constructor(private fb: FormBuilder) {
     this.profileForm = this.fb.group({
       id: [''],
-      name: [''],
+      firstName: [''],
       email: [''],
       role: [''],
       phoneNumber: [''],
@@ -27,36 +27,29 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserProfile();
+    this.isEditing = false;
   }
 
   getUserProfile() {
-    // Assuming the service returns an observable
-    // this.profileService.getUserProfile().subscribe((profile: any) => {
-    //   this.userProfile = profile;
-    //   this.profileForm.patchValue(profile); // Patch form with profile data
-    // });
-
-    // Dummy profile data
-    this.userProfile = {
-      id: 1,
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      role: 'User',
-      phoneNumber: '1234567890',
-      gender: 'Male',
-      dateOfBirth: '1990-01-01',
-      address: '123 Street, City'
-      // Add more profile details as needed
-    };
-    this.profileForm.patchValue(this.userProfile); // Patch form with profile data
+    const storedUserProfile = localStorage.getItem('user_profile');
+    if (storedUserProfile) {
+      this.userProfile = JSON.parse(storedUserProfile);
+      this.profileForm.patchValue(this.userProfile);
+    } else {
+      console.error('User profile data not found in local storage.');
+    }
   }
 
   onSubmit() {
-    // Handle form submission here
-    // Update profile data and save to backend
   }
 
   onForgotPassword() {
-    // Handle forgot password functionality here
+  }
+  toggleEdit() {
+    this.isEditing = !this.isEditing;
+    if (!this.isEditing) {
+      this.profileForm.patchValue(this.userProfile);
+    }
   }
 }
+

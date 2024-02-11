@@ -1,42 +1,42 @@
-/* Styles for the table */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.demo-button {
+    margin-bottom: 20px;
+}
+
+.table-container {
+    width: 100%;
+    margin-top: 20px;
+}
+
 .mat-table {
     width: 100%;
 }
 
-/* Styles for the form */
-.edit-form {
-    display: flex;
-    flex-direction: column;
+.mat-paginator {
     margin-top: 20px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
 }
 
-.edit-form label {
-    margin-bottom: 5px;
+.mat-elevation-z8 {
+    overflow-x: auto;
+    border-radius: 4px;
 }
 
-.edit-form input {
-    width: calc(100% - 12px);
-    padding: 6px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+.mat-row,
+.mat-header-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 24px;
 }
 
-.edit-form button {
-    width: 100px;
-    padding: 10px;
-    margin-top: 10px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-.edit-form button:hover {
-    background-color: #0056b3;
+.mat-header-cell,
+.mat-cell {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

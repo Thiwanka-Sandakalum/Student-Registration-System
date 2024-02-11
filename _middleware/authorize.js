@@ -6,38 +6,42 @@ const db = require('../config/db');
 module.exports = authorize;
 
 function authorize(roles = []) {
-    if (typeof roles === 'string') {
-        roles = [roles];
-    }
-
-    // Middleware to authenticate JWT token and attach user to request object
     function authenticateToken(req, res, next) {
-        const token = req.cookies.refreshToken;
+        const token = req.headers['authorization'];
+        console.log(req.headers['authorization']);
         if (!token) {
-            return res.status(401).json({ message: 'Unauthorized' });
+            console.error("No token provided");
+            return res.status(401).json({ message: 'Unauthorized: No token provided' });
         }
         jwt.verify(token, secret, (err, decoded) => {
             if (err) {
-                return res.status(401).json({ message: 'Unauthorized' });
+                console.error("Failed to authenticate token");
+                return res.status(401).json({ message: 'Unauthorized: Failed to authenticate token' });
             }
             req.user = decoded;
             next();
         });
     }
 
-    // Middleware to authorize based on user role
     async function authorizeRole(req, res, next) {
-        const account = await db.Account.findByPk(req.user.sub);
-        if (!account || !account.dataValues) {
-            return res.status(401).json({ message: 'Unauthorized' });
-        }
+        try {
+            const account = await db.Account.findByPk(req.user.sub);
+            if (!account || !account.dataValues) {
+                console.error("Unauthorized: Account not found");
+                return res.status(401).json({ message: 'Unauthorized: Account not found' });
+            }
 
-        if (req.params.id != req.user.sub) {
-            return res.status(403).json({ message: 'Forbidden' });
-        }
+            if (req.params.id != req.user.sub) {
+                console.error("Forbidden: User is not authorized to access this resource");
+                return res.status(403).json({ message: 'Forbidden: User is not authorized to access this resource' });
+            }
 
-        req.user.role = account.dataValues.role;
-        next();
+            req.user.role = account.dataValues.role;
+            next();
+        } catch (error) {
+            console.error("Error in authorization:", error);
+            res.status(500).json({ message: 'Internal Server Error' });
+        }
     }
 
     return [authenticateToken, authorizeRole];

@@ -1,13 +1,11 @@
-<div class="profile-container">
-    <!-- Header -->
+<div class="profile-container" *ngIf="userProfile">
     <h2>Welcome, {{ userProfile.name }}</h2>
 
-    <!-- Profile Form -->
     <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
         <div class="profile-form">
             <mat-form-field appearance="fill">
                 <mat-label>Name</mat-label>
-                <input matInput formControlName="name">
+                <input matInput formControlName="firstName" [disabled]="!isEditing">
             </mat-form-field>
 
             <mat-form-field appearance="fill">
@@ -17,7 +15,7 @@
 
             <mat-form-field appearance="fill">
                 <mat-label>Role</mat-label>
-                <input matInput formControlName="name" [disabled]="isDisabled">
+                <input matInput formControlName="role" [disabled]="isDisabled">
             </mat-form-field>
 
             <mat-form-field appearance="fill">
@@ -44,12 +42,18 @@
         </div>
 
         <div class="form-actions">
-            <button mat-raised-button color="primary" type="submit">Save</button>
+            <button mat-raised-button color="primary" type="submit" [disabled]="!isEditing">Save</button>
+            <button mat-raised-button color="primary" type="button" (click)="toggleEdit()">
+                {{ isEditing ? 'Cancel' : 'Edit' }}
+            </button>
         </div>
     </form>
 
-    <!-- Forgot Password Section -->
     <div class="forgot-password">
         <button mat-button color="warn" (click)="onForgotPassword()">Forgot Password</button>
     </div>
+</div>
+
+<div class="no-profile-message" *ngIf="!userProfile">
+    <p>No profile data found. Please log in to view your profile.</p>
 </div>

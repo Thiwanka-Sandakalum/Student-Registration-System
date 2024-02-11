@@ -19,5 +19,13 @@
 .forgot-password {
     margin-top: 20px;
     text-align: center;
-    /* Align the button to the center */
+}
+
+.no-profile-message {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 4px;
+    color: #721c24;
 }

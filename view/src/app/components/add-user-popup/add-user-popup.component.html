@@ -1,42 +1,49 @@
-<mat-card>
-    <mat-card-title>Add New User</mat-card-title>
+<mat-card class="modern-card">
+    <mat-card-header>
+        <mat-card-title>Add New User</mat-card-title>
+    </mat-card-header>
     <mat-card-content>
         <form #userForm="ngForm" (ngSubmit)="submitForm()">
-            <mat-form-field>
-                <input matInput placeholder="First Name" type="text" name="firstName" ngModel required>
+            <mat-form-field appearance="fill">
+                <mat-label>First Name</mat-label>
+                <input matInput type="text" name="firstName" ngModel required>
             </mat-form-field>
-            <mat-form-field>
-                <input matInput placeholder="Last Name" type="text" name="lastName" ngModel required>
+            <mat-form-field appearance="fill">
+                <mat-label>Last Name</mat-label>
+                <input matInput type="text" name="lastName" ngModel required>
             </mat-form-field>
-            <mat-form-field>
-                <input matInput placeholder="Email" type="email" name="email" ngModel required>
+            <mat-form-field appearance="fill">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" name="email" ngModel required>
             </mat-form-field>
-            <mat-form-field>
-                <input matInput placeholder="Password" type="password" name="password" ngModel required>
+            <mat-form-field appearance="fill">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" name="password" ngModel required>
             </mat-form-field>
-            <mat-form-field>
-                <input matInput placeholder="Confirm Password" type="password" name="confirmPassword" ngModel required>
+            <mat-form-field appearance="fill">
+                <mat-label>Confirm Password</mat-label>
+                <input matInput type="password" name="confirmPassword" ngModel required>
             </mat-form-field>
-            <mat-checkbox name="acceptTerms" [(ngModel)]="acceptTerms" required> Accept Terms </mat-checkbox>
-            <mat-form-field>
-                <input matInput placeholder="Phone Number" type="tel" name="phoneNumber" ngModel pattern="[0-9]{10}"
-                    required>
+            <mat-form-field appearance="fill">
+                <mat-label>Phone Number</mat-label>
+                <input matInput type="tel" name="phoneNumber" ngModel pattern="[0-9]{10}" required>
             </mat-form-field>
-            <mat-form-field>
+            <mat-form-field appearance="fill">
                 <mat-label>Gender</mat-label>
                 <mat-select name="gender" [(ngModel)]="gender" required>
                     <mat-option value="Male">Male</mat-option>
                     <mat-option value="Female">Female</mat-option>
                 </mat-select>
             </mat-form-field>
-            <mat-form-field>
-                <input matInput [matDatepicker]="picker" placeholder="Date of Birth" name="dateOfBirth" ngModel
-                    required>
+            <mat-form-field appearance="fill">
+                <mat-label>Date of Birth</mat-label>
+                <input matInput [matDatepicker]="picker" name="dateOfBirth" ngModel required>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
-            <mat-form-field>
-                <textarea matInput placeholder="Address" name="address" ngModel required></textarea>
+            <mat-form-field appearance="fill">
+                <mat-label>Address</mat-label>
+                <textarea matInput name="address" ngModel required></textarea>
             </mat-form-field>
             <button mat-raised-button color="primary" type="submit" [disabled]="!userForm.valid">Add User</button>
         </form>

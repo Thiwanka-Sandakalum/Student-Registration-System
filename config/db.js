@@ -20,7 +20,7 @@ const Account = sequelize.define('Account', {
         allowNull: false,
         defaultValue: 'User',
         validate: {
-            isIn: [['User', 'Admin']] // Ensure role is either 'User' or 'Admin'
+            isIn: [['User', 'Admin']]
         }
     },
     phoneNumber: {
@@ -28,19 +28,19 @@ const Account = sequelize.define('Account', {
         allowNull: false,
         unique: true,
         validate: {
-            len: [10, 10] // Ensure phone number is exactly 10 characters
+            len: [10, 10]
         }
     },
     gender: {
         type: DataTypes.STRING,
         allowNull: false,
         validate: {
-            isIn: [['Male', 'Female']] // Ensure gender is either 'Male' or 'Female'
+            isIn: [['Male', 'Female']]
         }
     },
     dateOfBirth: { type: DataTypes.DATE, allowNull: false },
     address: { type: DataTypes.STRING, allowNull: false },
-    refreshToken: { type: DataTypes.STRING } // Adding refreshToken column
+    refreshToken: { type: DataTypes.STRING }
 }, {
     timestamps: true,
 });

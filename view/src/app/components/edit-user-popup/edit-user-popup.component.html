@@ -1,9 +1,8 @@
 <h2 mat-dialog-title>Edit User</h2>
 <div mat-dialog-content>
     <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
-        <mat-form-field>
-            <input matInput placeholder="ID" formControlName="id" [disabled]="true">
-        </mat-form-field>
+        <input type="hidden" formControlName="id">
+
         <mat-form-field>
             <input matInput placeholder="First Name" formControlName="firstName">
         </mat-form-field>
@@ -13,7 +12,6 @@
         <mat-form-field>
             <input matInput placeholder="Email" formControlName="email">
             <mat-error *ngIf="editForm.controls['email'].invalid && editForm.controls['email'].touched">
-
                 Please enter a valid email address
             </mat-error>
         </mat-form-field>
@@ -36,6 +34,5 @@
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="onCancelClick()">Cancel</button>
-    <button mat-button color="primary" type="submit" [disabled]="editForm.invalid" (click)="onSubmit()">Save</button>
-
+    <button mat-button color="primary" [disabled]="editForm.invalid" (click)="onSubmit()">Save</button>
 </div>

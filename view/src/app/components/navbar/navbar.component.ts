@@ -10,6 +10,6 @@ export class NavbarComponent {
   constructor(private authService: AuthService) { }
 
   logout() {
-    // this.authService.logout(); // Call your logout function from authentication service
+    this.authService.logout();
   }
 }
