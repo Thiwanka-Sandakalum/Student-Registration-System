@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>Edit User</h2>
+<div mat-dialog-content>
+    <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <input matInput placeholder="ID" formControlName="id" [disabled]="true">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="First Name" formControlName="firstName">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Last Name" formControlName="lastName">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Email" formControlName="email">
+            <mat-error *ngIf="editForm.controls['email'].invalid && editForm.controls['email'].touched">
+
+                Please enter a valid email address
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Role" formControlName="role">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Phone Number" formControlName="phoneNumber">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Gender" formControlName="gender">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Date of Birth" formControlName="dateOfBirth">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Address" formControlName="address">
+        </mat-form-field>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onCancelClick()">Cancel</button>
+    <button mat-button color="primary" type="submit" [disabled]="editForm.invalid" (click)="onSubmit()">Save</button>
+
+</div>
